@@ -12,7 +12,7 @@ export default function TopNavigation({ navBar }: Props) {
   return (
     <div className="container mx-auto p-6 flex justify-between items-center">
       {logo?.url && logo?.alt ? (
-        <Image src={logo.url} alt={logo.alt} width={36} height={50} />
+        <Image src={logo.url} alt={logo.alt} width={50} height={50} />
       ) : (
         <div>No logo available</div>
       )}

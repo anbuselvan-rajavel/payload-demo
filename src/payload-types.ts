@@ -115,12 +115,24 @@ export interface Page {
   id: number;
   title: string;
   publishedAt?: string | null;
-  layout?: (ProjectsBlock | HeroBlock)[] | null;
+  layout?: (HeroBlock | ProjectsBlock)[] | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  heading: string;
+  description: string;
+  media: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -131,25 +143,13 @@ export interface ProjectsBlock {
   subheading?: string | null;
   projects: {
     projectTitle: string;
-    projectDescription: string;
+    projectDescription?: string | null;
     projectImage: number | Media;
     id?: string | null;
   }[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'projects';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock".
- */
-export interface HeroBlock {
-  heading: string;
-  description?: string | null;
-  media: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -351,14 +351,25 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        projects?: T | ProjectsBlockSelect<T>;
         hero?: T | HeroBlockSelect<T>;
+        projects?: T | ProjectsBlockSelect<T>;
       };
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock_select".
+ */
+export interface HeroBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  media?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -375,17 +386,6 @@ export interface ProjectsBlockSelect<T extends boolean = true> {
         projectImage?: T;
         id?: T;
       };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock_select".
- */
-export interface HeroBlockSelect<T extends boolean = true> {
-  heading?: T;
-  description?: T;
-  media?: T;
   id?: T;
   blockName?: T;
 }

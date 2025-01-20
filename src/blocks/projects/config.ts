@@ -1,8 +1,7 @@
 import type { Block } from 'payload'
 
 export const ProjectsBlock: Block = {
-  // ...
-  slug: 'hero',
+  slug: 'projects',
   fields: [
     {
       name: 'heading',
@@ -10,16 +9,33 @@ export const ProjectsBlock: Block = {
       required: true,
     },
     {
-      name: 'description',
+      name: 'subheading',
       type: 'textarea',
       required: false,
     },
     {
-      name: 'media',
-      type: 'upload',
-      relationTo: 'media',
+      name: 'projects',
+      type: 'array',
       required: true,
+      fields: [
+        {
+          name: 'projectTitle',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'projectDescription',
+          type: 'textarea',
+          required: false,
+        },
+        {
+          name: 'projectImage',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+      ],
     },
   ],
-  interfaceName: 'HeroBlock',
+  interfaceName: 'ProjectsBlock',
 }
