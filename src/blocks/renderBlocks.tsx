@@ -4,10 +4,12 @@ import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 import { HeroComponent } from './hero/HeroComponent'
 import { ProjectsComponent } from './projects/ProjectsComponent'
+import { ServicesComponent } from './services/ServiceComponent'
 
 const blockComponents: { [key: string]: React.FC<any> } = {
   hero: HeroComponent,
   projects: ProjectsComponent,
+  services: ServicesComponent,
 }
 
 export const RenderBlocks: React.FC<{

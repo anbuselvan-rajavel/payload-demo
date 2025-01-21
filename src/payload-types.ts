@@ -34,9 +34,11 @@ export interface Config {
   };
   globals: {
     nav: Nav;
+    footer: Footer;
   };
   globalsSelect: {
     nav: NavSelect<false> | NavSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   user: User & {
@@ -115,7 +117,23 @@ export interface Page {
   id: number;
   title: string;
   publishedAt?: string | null;
-  layout?: (HeroBlock | ProjectsBlock)[] | null;
+  layout?:
+    | (
+        | HeroBlock
+        | ProjectsBlock
+        | {
+            heading: string;
+            subheading?: string | null;
+            serviceCards: {
+              image: number | Media;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'services';
+          }
+      )[]
+    | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -353,6 +371,20 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroBlockSelect<T>;
         projects?: T | ProjectsBlockSelect<T>;
+        services?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              serviceCards?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
   slug?: T;
   slugLock?: T;
@@ -468,6 +500,49 @@ export interface Nav {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  logo?: (number | null) | Media;
+  description?: string | null;
+  quickLinks?:
+    | {
+        link: number | Page;
+        id?: string | null;
+      }[]
+    | null;
+  services?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  contact?: {
+    email?: string | null;
+    phone?: string | null;
+    address?: string | null;
+  };
+  socialLinks?:
+    | {
+        platform: 'Facebook' | 'Twitter' | 'LinkedIn' | 'Instagram';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  copyright?: string | null;
+  legalLinks?:
+    | {
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nav_select".
  */
 export interface NavSelect<T extends boolean = true> {
@@ -476,6 +551,51 @@ export interface NavSelect<T extends boolean = true> {
     | T
     | {
         page?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  logo?: T;
+  description?: T;
+  quickLinks?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
+  services?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        address?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  copyright?: T;
+  legalLinks?:
+    | T
+    | {
+        label?: T;
+        url?: T;
         id?: T;
       };
   updatedAt?: T;

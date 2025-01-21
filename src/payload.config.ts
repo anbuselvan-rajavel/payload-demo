@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { TopNav } from './collections/globals/TopNav'
+import { Footer } from './collections/globals/footer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,7 +35,7 @@ export default buildConfig({
     },
   }),
   sharp,
-  globals: [TopNav],
+  globals: [TopNav, Footer],
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder

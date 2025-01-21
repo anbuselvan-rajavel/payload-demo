@@ -1,5 +1,6 @@
 import { HeroBlock } from '@/blocks/hero/config'
 import { ProjectsBlock } from '@/blocks/projects/config'
+import { ServicesBlock } from '@/blocks/services/config'
 import { slugField } from '@/fields/slug'
 import { authenticated } from '@/hooks/authenticated'
 import type { CollectionConfig } from 'payload'
@@ -40,7 +41,7 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [HeroBlock, ProjectsBlock],
+      blocks: [HeroBlock, ProjectsBlock, ServicesBlock],
     },
     ...slugField(),
   ],

@@ -1,5 +1,5 @@
-import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
@@ -18,11 +18,10 @@ export async function generateStaticParams() {
       slug: true,
     },
   })
+  console.log(pages, 'pages')
 
   const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
+    ?.filter((doc) => doc.slug && typeof doc.slug === 'string')
     .map(({ slug }) => {
       return { slug }
     })
@@ -31,24 +30,28 @@ export async function generateStaticParams() {
 }
 
 type Args = {
-  params: Promise<{
-    slug?: string
-  }>
+  params: {
+    slug: string
+  }
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function Page({ params }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = await paramsPromise
+  const { slug = 'home' } = params
 
   const page: PageType | null = await queryPageBySlug({
     slug,
   })
 
-  const { layout } = page
+  if (!page) {
+    notFound()
+  }
+
+  const layout = page?.layout || []
 
   return (
     <article>
-      <RenderBlocks blocks={layout || []} />
+      <RenderBlocks blocks={layout} />
     </article>
   )
 }
@@ -73,3 +76,8 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
 
   return result.docs?.[0] || null
 })
+import { notFound as nextNotFound } from 'next/navigation'
+
+function notFound() {
+  nextNotFound()
+}
