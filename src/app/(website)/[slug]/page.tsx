@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
+import { notFound } from 'next/navigation'
 
 import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/renderBlocks'
@@ -18,8 +19,6 @@ export async function generateStaticParams() {
       slug: true,
     },
   })
-  console.log(pages, 'pages')
-
   const params = pages.docs
     ?.filter((doc) => doc.slug && typeof doc.slug === 'string')
     .map(({ slug }) => {
@@ -30,14 +29,13 @@ export async function generateStaticParams() {
 }
 
 type Args = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
-export default async function Page({ params }: Args) {
-  const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = params
+export default async function Page({ params: paramsPromise }: Args) {
+  const { slug = 'home' } = await paramsPromise
 
   const page: PageType | null = await queryPageBySlug({
     slug,
@@ -76,8 +74,3 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
 
   return result.docs?.[0] || null
 })
-import { notFound as nextNotFound } from 'next/navigation'
-
-function notFound() {
-  nextNotFound()
-}

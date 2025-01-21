@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { cn } from '@/utilities/ui'
 import React, { Fragment } from 'react'
 
