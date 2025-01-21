@@ -81,17 +81,10 @@ export default function Footer({ footer }: Props) {
 
         {/* Bottom Section */}
         <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-center items-center">
             <p className="text-gray-400 text-sm">
               {footer.copyright || `© ${new Date().getFullYear()} All rights reserved.`}
             </p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-              {footer.legalLinks?.map((link, index) => (
-                <a key={index} href={link.url} className="text-gray-400 hover:text-white">
-                  {link.label}
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </div>
